@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cafe Master - Form Data Pemesan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #f88000; /* Warna ungu, bisa disesuaikan */
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #f88000; /* Warna ungu, bisa disesuaikan */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <img src="IMG_20190210_085132_575.jpg" alt="Cafe Master Logo" width="150" />
+
+    <h1>Cafe Master</h1>
+
+    <form id="customerForm">
+        <label for="namaPemesan">Nama Pemesan:</label>
+        <input type="text" id="namaPemesan" name="namaPemesan" required />
+
+        <label for="nomerMeja">Nomer Meja:</label>
+        <input type="text" id="nomerMeja" name="nomerMeja" required />
+
+        <button type="button" onclick="lanjutKePemesanan()">
+            Lanjut ke Pemesanan
+        </button>
+    </form>
+
+    <script>
+        function lanjutKePemesanan() {
+            // Mengambil data dari form
+            const namaPemesan = document.getElementById("namaPemesan").value;
+            const nomerMeja = document.getElementById("nomerMeja").value;
+
+            // Menyimpan data pemesan ke local storage (bisa diganti dengan cara penyimpanan data yang lebih aman di backend)
+            const dataPemesan = {
+                namaPemesan,
+                nomerMeja,
+            };
+            localStorage.setItem("dataPemesan", JSON.stringify(dataPemesan));
+
+            // Mengarahkan pengguna ke halaman pemesanan
+            window.location.href = "pemesanan.html";
+        }
+    </script>
+</body>
+</html>

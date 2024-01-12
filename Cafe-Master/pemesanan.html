@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafe Master - Pemesanan Menu</title>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+    }
+
+    h1 {
+      color: #f88000; /* Warna ungu, bisa disesuaikan */
+    }
+
+    img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    }
+
+    .menu-category {
+    margin-bottom: 20px;
+    }
+
+    .menu-item {
+    display: inline-block;
+    margin: 10px;
+    cursor: pointer;
+    border: 1px solid #ddd; /* Warna border bisa disesuaikan */
+    border-radius: 5px;
+    padding: 10px;
+    }
+
+    #catatanKhususForm {
+    text-align: left;
+    max-width: 400px;
+    margin: 20px auto;
+    }
+
+    #keranjangPesanan {
+    text-align: left;
+    max-width: 400px;
+    margin: 20px auto;
+    }
+
+    #struk {
+    text-align: left;
+    max-width: 400px;
+    margin: 20px auto;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+    }
+      #struk, #struk * {
+        visibility: visible;
+    }
+    #struk {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    }
+</style>
+</head>
+<body>
+
+<h1>Cafe Master - Pemesanan Menu</h1>
+
+<!-- Makanan -->
+<div class="menu-category">
+    <h2>Makanan</h2>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('roti-pisang')">
+    <img src="path/to/roti_pisang.jpg" alt="Roti Pisang" width="100">
+    <p>Roti Pisang - Rp 8,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('roti-keju')">
+    <img src="path/to/roti_keju.jpg" alt="Roti Keju" width="100">
+    <p>Roti Keju - Rp 7,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('roti-coklat')">
+    <img src="path/to/roti_coklat.jpg" alt="Roti Coklat" width="100">
+    <p>Roti Coklat - Rp 6,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('roti-susu')">
+    <img src="path/to/roti_susu.jpg" alt="Roti Susu" width="100">
+    <p>Roti Susu - Rp 7,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('roti-nanas')">
+    <img src="path/to/roti_nanas.jpg" alt="Roti Nanas" width="100">
+    <p>Roti Nanas - Rp 9,000</p>
+    </div>
+</div>
+
+<!-- Minuman -->
+<div class="menu-category">
+    <h2>Minuman</h2>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('americano')">
+    <img src="path/to/americano.jpg" alt="Americano" width="100">
+    <p>Americano - Rp 15,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('latte')">
+    <img src="path/to/latte.jpg" alt="Latte" width="100">
+    <p>Latte - Rp 15,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('cappucino')">
+    <img src="path/to/cappucino.jpg" alt="Cappucino" width="100">
+    <p>Cappucino - Rp 15,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('kopi-gula-aren')">
+    <img src="path/to/kopi_gula_aren.jpg" alt="Kopi Gula Aren" width="100">
+    <p>Kopi Gula Aren - Rp 20,000</p>
+    </div>
+
+    <div class="menu-item" onclick="tambahKeKeranjang('jus-buah')">
+    <img src="path/to/jus_buah.jpg" alt="Jus Buah" width="100">
+    <p>Jus Buah - Rp 10,000</p>
+    </div>
+</div>
+
+<!-- Form Catatan Khusus -->
+<div id="catatanKhususForm">
+    <h2>Catatan Khusus</h2>
+    <form id="catatanForm">
+    <label for="catatanKhusus">Tambahkan catatan khusus untuk pesanan Anda:</label>
+    <textarea id="catatanKhusus" name="catatanKhusus" rows="4"></textarea>
+    </form>
+</div>
+
+<div id="keranjangPesanan">
+    <h2>Keranjang Pesanan</h2>
+    <ul id="keranjangList"></ul>
+    <p>Total Pesanan: Rp <span id="totalPesanan">0</span></p>
+    <button type="button" onclick="cetakStruk()">Cetak Struk</button>
+</div>
+
+<div id="struk"></div>
+
+<script>
+    const menuData = {
+    'roti-pisang': { name: 'Roti Pisang', price: 8000 },
+    'roti-keju': { name: 'Roti Keju', price: 7000 },
+    'roti-coklat': { name: 'Roti Coklat', price: 6000 },
+    'roti-susu': { name: 'Roti Susu', price: 7000 },
+    'roti-nanas': { name: 'Roti Nanas', price: 9000 },
+    'americano': { name: 'Americano', price: 15000 },
+    'latte': { name: 'Latte', price: 15000 },
+    'cappucino': { name: 'Cappucino', price: 15000 },
+    'kopi-gula-aren': { name: 'Kopi Gula Aren', price: 20000 },
+    'jus-buah': { name: 'Jus Buah', price: 10000 },
+    };
+
+    const keranjangPesanan = [];
+
+    function tambahKeKeranjang(menu) {
+      // Menambah pesanan ke keranjang
+    const existingItem = keranjangPesanan.find(item => item.menu === menu);
+    if (existingItem) {
+        existingItem.quantity += 1;
+    } else {
+        keranjangPesanan.push({ menu, quantity: 1 });
+    }
+
+      // Memperbarui tampilan keranjang
+    updateKeranjang();
+    }
+
+    function kurangiDariKeranjang(index) {
+    const item = keranjangPesanan[index];
+    if (item.quantity > 1) {
+        item.quantity -= 1;
+    } else {
+        keranjangPesanan.splice(index, 1);
+    }
+
+      // Memperbarui tampilan keranjang
+    updateKeranjang();
+    }
+
+    function hapusDariKeranjang(index) {
+    keranjangPesanan.splice(index, 1);
+      // Memperbarui tampilan keranjang
+    updateKeranjang();
+    }
+
+    function updateKeranjang() {
+    const keranjangList = document.getElementById('keranjangList');
+    keranjangList.innerHTML = '';
+    let totalPesanan = 0;
+
+    keranjangPesanan.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        const harga = menuData[item.menu].price * item.quantity;
+        totalPesanan += harga;
+
+        listItem.innerHTML = `<p>${item.quantity} ${menuData[item.menu].name} - Rp ${harga.toLocaleString()} 
+                            <button type="button" onclick="kurangiDariKeranjang(${index})">Kurangi</button>
+                            <button type="button" onclick="hapusDariKeranjang(${index})">Hapus</button></p>`;
+        keranjangList.appendChild(listItem);
+    });
+
+      // Memperbarui total pesanan
+    const totalPesananElement = document.getElementById('totalPesanan');
+    totalPesananElement.textContent = totalPesanan.toLocaleString();
+    }
+
+    function tampilkanCatatanKhusus() {
+    const dataPemesan = JSON.parse(localStorage.getItem("dataPemesan"));
+    const catatanKhususElement = document.getElementById('catatanKhusus');
+    
+    if (dataPemesan && dataPemesan.catatanKhusus) {
+        catatanKhususElement.innerHTML = `<p>Catatan Khusus: ${dataPemesan.catatanKhusus}</p>`;
+    }
+    }
+
+    function cetakStruk() {
+    const strukElement = document.getElementById('struk');
+    strukElement.innerHTML = '';
+
+    if (keranjangPesanan.length === 0) {
+    strukElement.innerHTML = '<p>Keranjang pesanan kosong.</p>';
+    return;
+    }
+
+    strukElement.innerHTML = '<h2>Struk Pembelian</h2>';
+
+    // Tampilkan informasi pemesan
+    const dataPemesan = JSON.parse(localStorage.getItem("dataPemesan"));
+    if (dataPemesan) {
+        strukElement.innerHTML += `<img src="path/to/cafe_master_logo.jpg" alt="Cafe Master Logo" width="100">`;
+        strukElement.innerHTML += `<p>Tanggal: ${new Date().toLocaleDateString()}</p>`;
+        strukElement.innerHTML += `<p>Nama Pemesan: ${dataPemesan.namaPemesan}</p>`;
+        strukElement.innerHTML += `<p>Nomer Meja: ${dataPemesan.nomerMeja}</p>`;
+        strukElement.innerHTML += `<p>Catatan Khusus: ${dataPemesan.catatanKhusus || '-'}</p>`;
+    }
+
+    keranjangPesanan.forEach(item => {
+      const harga = menuData[item.menu].price * item.quantity;
+
+    const pesananDetail = document.createElement('p');
+    pesananDetail.textContent = `${item.quantity} ${menuData[item.menu].name} - Rp ${harga.toLocaleString()}`;
+    strukElement.appendChild(pesananDetail);
+    });
+
+    const totalPesanan = keranjangPesanan.reduce((total, item) => {
+      return total + menuData[item.menu].price * item.quantity;
+    }, 0);
+
+    strukElement.innerHTML += `<p>Total Pembelian: Rp ${totalPesanan.toLocaleString()}</p>`;
+
+    // Buka jendela cetak
+    window.frames["printf"].document.body.innerHTML = strukElement.innerHTML;
+    window.frames["printf"].window.print();
+    // Mengosongkan keranjang setelah mencetak struk
+    keranjangPesanan.length = 0;
+    // Memperbarui tampilan keranjang setelah mengosongkannya
+    updateKeranjang();
+}
+
+    // Panggil fungsi untuk menampilkan Catatan Khusus
+    tampilkanCatatanKhusus();
+
+</script>
+
+<iframe name="printf" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+
+</body>
+
+
+</html>
