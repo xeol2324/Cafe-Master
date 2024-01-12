@@ -1,3 +1,5 @@
+<!-- POINT 01 -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +50,7 @@
     </style>
 </head>
 <body>
-    <img src="IMG_20190210_085132_575.jpg" alt="Cafe Master Logo" width="150" />
+    <img src="Logo dark.png" alt="Cafe Master Logo" width="250" />
 
     <h1>Cafe Master</h1>
 
@@ -63,23 +65,7 @@
             Lanjut ke Pemesanan
         </button>
     </form>
-
-    <script>
-        function lanjutKePemesanan() {
-            // Mengambil data dari form
-            const namaPemesan = document.getElementById("namaPemesan").value;
-            const nomerMeja = document.getElementById("nomerMeja").value;
-
-            // Menyimpan data pemesan ke local storage (bisa diganti dengan cara penyimpanan data yang lebih aman di backend)
-            const dataPemesan = {
-                namaPemesan,
-                nomerMeja,
-            };
-            localStorage.setItem("dataPemesan", JSON.stringify(dataPemesan));
-
-            // Mengarahkan pengguna ke halaman pemesanan
-            window.location.href = "pemesanan.html";
-        }
-    </script>
+    
+    <script src="form.js"></script>
 </body>
 </html>
